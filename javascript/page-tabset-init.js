@@ -1,0 +1,1 @@
+$(function(){$("div.page-tabset").tabs();});
