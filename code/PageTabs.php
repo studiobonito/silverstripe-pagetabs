@@ -27,25 +27,6 @@ class PageTabSet extends DataObject {
 	);
 	public static $searchable_fields = array(
 	);
-	
-	protected $filter_tabs = '';
-	protected $filter_tabitems = '';
-	
-	public function set_filter_tabs($filter_tabs) {
-		$this->filter_tabs = $filter_tabs;
-	}
-	
-	public function set_filter_tabitems($filter_tabitems) {
-		$this->filter_tabitems = $filter_tabitems;
-	}
-	
-	public function get_filter_tabs() {
-		return $this->filter_tabs;
-	}
-	
-	public function get_filter_tabitems() {
-		return $this->filter_tabitems;
-	}
 
 	public function updateCMSFields(FieldSet &$fields)
 	{
@@ -71,7 +52,7 @@ class PageTabSet extends DataObject {
 	}
 	
 	public function PageTabs() {
-		return $this->Tabs($this->get_filter_tabs());
+		return $this->Tabs();
 	}
 
 }
@@ -122,7 +103,7 @@ class PageTab extends DataObject {
 	}
 	
 	public function PageTabItems() {
-		return $this->TabItems($this->TabSet()->get_filter_tabitems());
+		return $this->TabItems();
 	}
 
 }
@@ -156,16 +137,6 @@ class PageTabItem extends DataObject {
 		$fields->push(new TextareaField('Content'));
 		$fields->push(new ImageField('Image'));
 		return $fields;
-	}
-
-	public function onAfterWrite()
-	{
-		parent::onAfterWrite();
-		if (isset($_REQUEST['ctf']))
-		{
-			if (!isset($_REQUEST['ctf']['childID']))
-				DB::query('UPDATE `PageTabItem` SET TabID = ' . $_REQUEST['ctf']['sourceID'] . ' WHERE ID = ' . $this->ID);
-		}
 	}
 	
 	public function onBeforeWrite()

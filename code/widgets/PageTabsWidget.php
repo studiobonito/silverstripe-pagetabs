@@ -12,8 +12,11 @@
 class PageTabsWidget extends Widget {
 	
 	public static $db = array(
-		'WidgetTitle' => 'Varchar',
-		'PageTabSetID' => 'Int'
+		'WidgetTitle' => 'Varchar'
+	);
+	
+	public static $has_one = array(
+		'PageTabSet' => 'PageTabSet'
 	);
 	
 	public static $defaults = array(
@@ -24,18 +27,12 @@ class PageTabsWidget extends Widget {
 	public static $cmsTitle = 'Page Tabs Widget';
 	public static $description = '';
 	
-	protected $PageID = 0;
-	
 	public function set_title($title) {
 		$this->WidgetTitle = $title;
 	}
 	
-	public function set_page_id($id) {
-		$this->PageID = $id;
-	}
-	
-	public function set_pagetabset_id($id) {
-		$this->PageTabSetID = $id;
+	public function set_pagetabset($pageTabSet) {
+		$this->PageTabSet = $pageTabSet;
 	}
 	
 	public function Title() {
@@ -43,9 +40,7 @@ class PageTabsWidget extends Widget {
 	}
 	
 	public function PageTabSet() {
-		$pageTabSet = DataObject::get_by_id('PageTabSet', $this->PageTabSetID);
-		$pageTabSet->set_filter_tabitems('PageID = '.$this->PageID);
-		return $pageTabSet;
+		return $this->PageTabSet;
 	}
 	
 	public function getCMSFields() {
